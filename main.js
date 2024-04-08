@@ -1,5 +1,7 @@
 require("dotenv").config();
 
+const name = require("emoji-name-map");
+
 const { Client, GatewayIntentBits } = require("discord.js");
 const client = new Client({
     intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages,
@@ -31,7 +33,7 @@ async function DetectReaction(Reaction, url) {
         console.log(Reaction.emoji.toString());
         if (process.env.EMOJI != "") {
 
-            if (Reaction.emoji.toString() === process.env.EMOJI.trim()) {
+            if (Reaction.emoji.toString() === name.get(process.env.EMOJI.trim()) || Reaction.emoji.toString() === process.env.EMOJI.trim()) {
                 Reaction.message.delete();
                 let channel = await client.channels.fetch(process.env.DESTINATION_CHANNEL_ID);
                 channel.send(url);
